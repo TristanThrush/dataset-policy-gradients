@@ -10,8 +10,8 @@ package is the *server* and implements the metagradient math.
 ## How it's used in the RL loop
 
 `scripts/metagrad_server.py` boots a model (named the target model in our paper) and listens on port 29922. On each GRPO step
-our verl reward function sends it the batch of generated sequences (`load_data_and_run`); the server
-runs a target model training loop on them and returns the **metagradient of the target
+our verl reward function sends it the generated sequences (`load_data_and_run`); the server
+runs a target model training loop on them (for potentially many training steps) and then returns the **metagradient of the target
 metric w.r.t. the per-example data weights** as the reward. The parent repo's
 `run_dpg_local.sh` launches this server alongside the verl trainer
 (`METAGRAD_SERVER_CONFIG` points at one of the metagrad server YAMLs in
