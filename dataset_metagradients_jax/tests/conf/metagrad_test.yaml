@@ -1,0 +1,18 @@
+# Configuration for metagrad testing
+defaults:
+  - config  # inherit from main config
+  - override model: large  # use large model
+  - _self_
+
+# Training parameters for metagrad testing
+microbatch_size: 128
+grad_accumulation_steps: 32  # for the jvp approach
+sequence_length: 256
+total_batches: 1
+
+# Optimizer configuration
+optimizer_type: 'adamw_reparam'
+
+# Training settings
+shuffle: true  # default from main config
+use_wandb: false  # off by default for testing

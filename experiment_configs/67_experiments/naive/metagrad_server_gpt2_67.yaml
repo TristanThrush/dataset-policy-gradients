@@ -1,0 +1,41 @@
+# Flattened standalone config (NAIVE server preset). Self-contained: no hydra `defaults:`.
+# Same gpt2 / batch settings as the qr_code server (so it handles the 256*4 -> 1,
+# 2048*4 -> 8, 24576*4 -> 96 metagrad-batch jobs, and validation -> 96 batches,
+# automatically); target is the sixseven (TARGET_67) pattern.
+# Naive variant: cross_group_batching=false, naive_metagrad_server=true (adamw optimizer).
+tokenizer_name: gpt2
+tokenizer_kwargs: {}
+dtype: fp32
+sequence_length: 128
+microbatch_size: 128
+grad_accumulation_steps: 8
+total_batches: 96
+jax_cache_dir: ${oc.env:LOCAL_FAST_STORAGE}/.jax_cache
+checkpoint_dir: ${oc.env:LOCAL_FAST_STORAGE}/checkpoints
+seed: 42
+optimizer_type: adamw
+learning_rate: 2.56e-04
+weight_decay: 0.0001
+eps_root: 1.0e-09
+eps: 1.0e-08
+b1: 0.9
+b2: 0.95
+warmup_steps: null
+use_manual_vjp: true
+use_wandb: true
+wandb_project: dataset-metagradients-jax
+wandb_entity: null
+wandb_name: null
+wandb_mode: online
+wandb_tags: []
+easydel_pretrained_override: gpt2
+target_metric_type: sixseven
+cross_group_batching: false
+naive_metagrad_server: true
+
+# No eleuther benchmark target: sixseven rewards against a fixed model-weight pattern.
+eleuther_benchmark_lm_eval_tasks: null
+eleuther_benchmark_split: train
+eleuther_benchmark_random_sample_ratio: null
+eleuther_benchmark_add_data_source: false
+eleuther_benchmark_shuffle: false

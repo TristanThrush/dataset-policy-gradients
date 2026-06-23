@@ -1,0 +1,4 @@
+[submodule "verl"]
+	path = verl
+	url = https://github.com/TristanThrush/verl.git
+	branch = dpg_paper_version

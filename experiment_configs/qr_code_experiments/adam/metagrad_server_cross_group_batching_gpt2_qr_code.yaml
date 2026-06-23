@@ -1,0 +1,39 @@
+# Flattened standalone config (originally the cross_group_batching server preset from dataset_metagradients_jax/conf/).
+# Self-contained: no hydra `defaults:`, so it lives anywhere without config.yaml/model/large.yaml siblings.
+tokenizer_name: gpt2
+tokenizer_kwargs: {}
+dtype: fp32
+sequence_length: 128
+microbatch_size: 128
+grad_accumulation_steps: 8
+total_batches: 96
+jax_cache_dir: ${oc.env:LOCAL_FAST_STORAGE}/.jax_cache
+checkpoint_dir: ${oc.env:LOCAL_FAST_STORAGE}/checkpoints
+seed: 42
+optimizer_type: adamw
+learning_rate: 5.0e-06
+weight_decay: 0.0001
+eps_root: 1.0e-09
+eps: 1.0e-08
+b1: 0.9
+b2: 0.95
+warmup_steps: null
+use_manual_vjp: true
+use_wandb: true
+wandb_project: dataset-metagradients-jax
+wandb_entity: null
+wandb_name: null
+wandb_mode: online
+wandb_tags: []
+easydel_pretrained_override: gpt2
+target_metric_type: rick_roll
+cross_group_batching: true
+naive_metagrad_server: false
+
+# Build the val/target benchmark in-process from an lm-eval task (instead of
+# loading a pre-tokenized dataset). Tokenized with tokenizer_name.
+eleuther_benchmark_lm_eval_tasks: null
+eleuther_benchmark_split: train
+eleuther_benchmark_random_sample_ratio: null
+eleuther_benchmark_add_data_source: false
+eleuther_benchmark_shuffle: false

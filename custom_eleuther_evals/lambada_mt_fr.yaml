@@ -1,0 +1,3 @@
+include: lambada_mt_en.yaml
+task: lambada_openai_mt_fr_custom_splits
+dataset_name: fr

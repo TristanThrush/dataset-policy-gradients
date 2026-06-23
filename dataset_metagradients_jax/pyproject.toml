@@ -1,0 +1,88 @@
+[project]
+name = "dataset-metagradients-jax"
+version = "0.1.0"
+description = "NanoGPT implementation in JAX and PyTorch with metagradients"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    # JAX dependencies
+    "jax[cuda12]>=0.6.1",
+    "flax>=0.10.6",
+    "optax>=0.1.0",
+    "grain>=0.1.0",
+    "jaxtyping",
+    "humanfriendly",
+    "orbax-checkpoint",
+    # Shared dependencies
+    "numpy>=1.24.0",
+    "transformers>=4.35.0,<4.53.0",
+    "datasets>=4.0.0",
+    "tokenizers>=0.14.0",
+    "tqdm>=4.66.0",
+    "line_profiler",
+    "nvtx>=0.2.12",
+    "wandb>=0.16.0",
+    "easydel==0.1.5.dev15",
+    # The following line is really gross but easydel requires cpu-only pytorch if we are going to load hf models automatically:
+    "torch @ https://download.pytorch.org/whl/cpu/torch-2.7.0%2Bcpu-cp312-cp312-manylinux_2_28_x86_64.whl#sha256=64123c05615e27368c7a7816f6e39c6d219998693beabde0b0b9cedf91b5ed8b", 
+    "setuptools",
+    "pyyaml>=6.0.2",
+    "hydra-core>=1.3.2",
+    "matplotlib",
+    "fasttext",
+    # Used by metagrad_server.py to build the metagrad target benchmark in-process
+    # (eleuther task -> tokenized dataset).
+    "lm_eval==0.4.9",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-xdist>=3.3.0",
+    "black>=23.7.0",
+    "isort>=5.12.0",
+    "mypy>=1.5.0",
+]
+jax-only = [
+    "jax[cuda12]>=0.4.20",
+    "flax>=0.10.6",
+    "optax>=0.1.0",
+    "grain>=0.1.0",
+    "orbax-checkpoint",
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+# The package lives directly under src/ (no nested src/dataset_metagradients_jax/);
+# map the import name onto that directory.
+package-dir = {"dataset_metagradients_jax" = "src"}
+packages = ["dataset_metagradients_jax"]
+
+[tool.black]
+line-length = 88
+target-version = ['py310']
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+[tool.pixi.workspace]
+channels = ["conda-forge"]
+platforms = ["linux-64"]
+
+[tool.pixi.pypi-dependencies]
+dataset-metagradients-jax = { path = ".", editable = true }
+
+[tool.pixi.environments]
+default = { solve-group = "default" }
+dev = { features = ["dev"], solve-group = "default" }
+jax-only = { features = ["jax-only"], solve-group = "default" }
+
+[tool.pixi.tasks]

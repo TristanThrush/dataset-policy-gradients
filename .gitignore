@@ -1,0 +1,19 @@
+# Vendored prebuilt CUDA wheels (~728 MB) -- re-create via the paths in README.md
+wheels/
+
+# Virtual environments
+.venv/
+.venv-verl/
+dataset_metagradients_jax/.venv/
+
+# Run outputs / scratch
+experiment_outputs/
+metagrad_server_outputs/
+__pycache__/
+*.pyc
+*.egg-info/
+
+# Local launch wrappers (cluster/scheduler-specific) + their job-id bookkeeping --
+# the repo runs on any 8-GPU node via run_dpg_local.sh; batch-scheduler scripts stay local.
+*.sbatch
+.last_*_jobid

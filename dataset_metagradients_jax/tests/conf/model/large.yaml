@@ -1,0 +1,6 @@
+# @package _global_
+# Large model preset
+dim: 2048
+n_layers: 16
+n_heads: 32
+mlp_ratio: 4.0

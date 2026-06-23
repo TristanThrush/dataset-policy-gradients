@@ -1,0 +1,51 @@
+# Main Hydra config - defaults section
+defaults:
+  - model: large  # default model preset
+  - _self_
+
+# Data configuration
+dataset_name: 'roneneldan/TinyStories'
+tokenizer_name: 'gpt2'
+tokenizer_kwargs: {}
+train_split: 'train'
+val_split: 'validation'
+train_num_examples: null
+val_num_examples: 256
+shuffle: true
+
+# Training configuration
+dtype: 'fp32'
+sequence_length: 128
+microbatch_size: 128
+grad_accumulation_steps: 4
+total_batches: 10
+num_epochs: 1
+
+# System configuration
+jax_cache_dir: '${oc.env:LOCAL_FAST_STORAGE,/tmp/${oc.env:USER}}/.jax_cache'
+checkpoint_dir: '${oc.env:LOCAL_FAST_STORAGE,/tmp/${oc.env:USER}}/checkpoints'
+seed: 42
+
+# Optimizer configuration
+optimizer_type: 'adamw'
+learning_rate: 0.001
+weight_decay: 0.1
+eps_root: 1e-8
+eps: 0.01
+b1: 0.9
+b2: 0.95
+warmup_steps: null
+
+# Training options
+use_manual_vjp: true
+
+# Wandb configuration
+use_wandb: true
+wandb_project: 'dataset-metagradients-jax'
+wandb_entity: null
+wandb_name: null
+wandb_mode: 'online'
+wandb_tags: []
+
+# Other
+easydel_pretrained_override: null

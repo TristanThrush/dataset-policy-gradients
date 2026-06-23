@@ -1,0 +1,9 @@
+# Server-less baseline target config, read by custom_metagrad_reward.py when
+# METAGRAD_BASELINE_CONFIG points here (no verl/metagrad server involved).
+# The target benchmark is built in-process from the eleuther task below and cached.
+target_metric_type: levenshtein
+tokenizer_name: meta-llama/Llama-3.2-1B-Instruct
+tokenizer_kwargs: {}
+cross_group_batching: false
+eleuther_benchmark_lm_eval_tasks: lambada_openai_mt_it_custom_splits
+eleuther_benchmark_split: train
