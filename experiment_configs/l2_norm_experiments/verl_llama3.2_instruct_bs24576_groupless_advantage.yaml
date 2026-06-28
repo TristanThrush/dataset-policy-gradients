@@ -47,10 +47,13 @@ trainer:
   n_gpus_per_node: 8
   nnodes: 1
   # Checkpoint every step so a preempt+requeue (round-robin scheduler, ~6h) never
-  # loses more than the in-progress step. Bounded disk: max_actor_ckpt_to_keep=1
-  # keeps only the latest actor checkpoint (GRPO: no critic).
+  # loses more than the in-progress step. Keep the latest TWO actor checkpoints
+  # (max_actor_ckpt_to_keep=2): with keep=1, a preemption landing mid-save can
+  # orphan the only checkpoint -- verl deletes the prior before the new save
+  # finishes, so resume fails -- whereas keeping 2 leaves an intact prior to
+  # resume from (GRPO: no critic).
   save_freq: 1
-  max_actor_ckpt_to_keep: 1
+  max_actor_ckpt_to_keep: 2
   # Validate every 10 GRPO steps. Validation uses the wikipedia_test_large file
   # (98304 rollouts -> 96 server metagrad batches), the same for all three jobs.
   test_freq: 10
