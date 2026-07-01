@@ -46,11 +46,13 @@ trainer:
   n_gpus_per_node: 8
   nnodes: 1
   # Checkpoint every step so a preempt+requeue (round-robin scheduler, ~6h) never
-  # loses more than the in-progress step. Bounded disk: max_actor_ckpt_to_keep=1
-  # keeps only the latest actor checkpoint (GRPO: no critic), so even at
-  # save_freq=1 the run holds ~1 checkpoint, not one per step.
+  # loses more than the in-progress step. Keep the latest TWO actor checkpoints
+  # (max_actor_ckpt_to_keep=2): with keep=1, a preemption landing mid-save can
+  # orphan the only checkpoint -- verl deletes the prior before the new save
+  # finishes, so resume fails -- whereas keeping 2 leaves an intact prior to
+  # resume from (GRPO: no critic).
   save_freq: 1
-  max_actor_ckpt_to_keep: 1
+  max_actor_ckpt_to_keep: 2
   # Validate only at the very end, never during training: skip the initial
   # pre-training validation, and set test_freq so large the periodic check never
   # fires (global_steps % test_freq == 0). verl still validates once on the final
