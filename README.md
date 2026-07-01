@@ -58,7 +58,7 @@ prompt_data/                         RL Wikipedia rephrase prompts (Git LFS -- s
 - `uuid_experiments/` — essentially the same as above, but with single `uuid` target metric and 360 RL steps.
 - `qr_code_experiments/adam/` — GPT-2 target model + `rick_roll` QR code target (no Eleuther benchmark).
 - `67_experiments/` — GPT-2 target model + `sixseven` target; a batch-size sweep (bs256/bs2048/bs24576 with
-  equal total training examples) × `adam`/`sgd`/`naive` (+ an `adam` `cross_group_batching=false` variant).
+  equal total training examples) × `adam`/`sgd`/`naive` (+ an `adam` `cross_group_batching=false` variant, bs24576 only).
 - `l2_norm_experiments/` — the same sweep as 67 above with the `l2_norm` target and 4× fewer GRPO steps.
 
 ## Setup
@@ -211,7 +211,7 @@ plain verl trainer config; the `naive` server config uses the `*_groupless_advan
   - naive:    `experiment_configs/67_experiments/verl_llama3.2_instruct_<bs>_groupless_advantage.yaml`
 - `METAGRAD_SERVER_CONFIG` (same for all three batch sizes):
   - adam:                       `experiment_configs/67_experiments/adam/metagrad_server_cross_group_batching_gpt2_67.yaml`
-  - adam, cross_group=false:    `experiment_configs/67_experiments/adam/metagrad_server_no_cross_group_batching_gpt2_67.yaml`
+  - adam, cross_group=false (bs24576 only):    `experiment_configs/67_experiments/adam/metagrad_server_no_cross_group_batching_gpt2_67.yaml`
   - sgd:                        `experiment_configs/67_experiments/sgd/metagrad_server_cross_group_batching_gpt2_67.yaml`
   - naive:                      `experiment_configs/67_experiments/naive/metagrad_server_gpt2_67.yaml`
 

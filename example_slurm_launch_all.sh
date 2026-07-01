@@ -62,10 +62,10 @@ submit "uuid_naive" "$EC/uuid_experiments/naive/metagrad_server_llama3.2_instruc
 # ---- qr_code (adam only) ----
 submit "qr_code_adam" "$EC/qr_code_experiments/adam/metagrad_server_cross_group_batching_gpt2_qr_code.yaml" "$EC/qr_code_experiments/verl_llama3.2_instruct.yaml"
 
-# ---- 67: bs256/bs2048/bs24576 x {adam, adam_nocross, sgd, naive} ----
+# ---- 67: bs256/bs2048/bs24576 x {adam, sgd, naive}; adam_nocross for bs24576 only ----
 for bs in bs256 bs2048 bs24576; do
   submit "67_adam_$bs"          "$EC/67_experiments/adam/metagrad_server_cross_group_batching_gpt2_67.yaml"    "$EC/67_experiments/verl_llama3.2_instruct_$bs.yaml"
-  submit "67_adam_nocross_$bs"  "$EC/67_experiments/adam/metagrad_server_no_cross_group_batching_gpt2_67.yaml" "$EC/67_experiments/verl_llama3.2_instruct_$bs.yaml"
+  [ "$bs" = bs24576 ] && submit "67_adam_nocross_$bs"  "$EC/67_experiments/adam/metagrad_server_no_cross_group_batching_gpt2_67.yaml" "$EC/67_experiments/verl_llama3.2_instruct_$bs.yaml"
   submit "67_sgd_$bs"           "$EC/67_experiments/sgd/metagrad_server_cross_group_batching_gpt2_67.yaml"     "$EC/67_experiments/verl_llama3.2_instruct_$bs.yaml"
   submit "67_naive_$bs"         "$EC/67_experiments/naive/metagrad_server_gpt2_67.yaml"                        "$EC/67_experiments/verl_llama3.2_instruct_${bs}_groupless_advantage.yaml"
 done
