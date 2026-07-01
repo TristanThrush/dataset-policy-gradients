@@ -159,8 +159,9 @@ trained **generator** — the GRPO-optimized policy that produces the synthetic 
   model directory, ready to load with `AutoModelForCausalLM.from_pretrained(...)`. It's produced at the end
   of the run by `verl/scripts/model_merger.py` from the latest actor checkpoint.
 - `<output_dir>/checkpoints/<name>-dpg/global_step_<N>/actor/` — the raw verl (FSDP-sharded) actor
-  checkpoint the merge is built from. The configs set `max_actor_ckpt_to_keep: 1`, so only the latest step
-  is kept; `latest_checkpointed_iteration.txt` records which `N` that is.
+  checkpoint the merge is built from. The configs set `max_actor_ckpt_to_keep: 2`, so the two most recent
+  steps are kept (a preemption mid-save can't orphan the only checkpoint — resume falls back to the prior
+  intact step); `latest_checkpointed_iteration.txt` records which `N` is current.
 
 Other things under the output dir: `metagrad_server_outputs/` (per-step target-metric JSON + heatmaps),
 `verl_outputs/` (Hydra run dir), and the `server.log` / `<name>-dpg.log` logs.
